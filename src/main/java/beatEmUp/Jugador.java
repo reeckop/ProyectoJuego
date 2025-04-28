@@ -2,15 +2,15 @@ package beatEmUp;
 
 import java.awt.*;
 
-public class Player {
+public class Jugador {
     private int x, y;
-    private int width = 50;
-    private int height = 100;
-    private int health = 100;
+    private int ancho = 50;
+    private int altura = 100;
+    private int vida = 100;
     
-    private boolean isJumping = false;
-    private int jumpSpeed = 0;
-    private final int GRAVITY = 1;
+    private boolean estaSaltando = false;
+    private int velocidadSalto = 0;
+    private final int GRAVEDAD = 1;
     private final int JUMP_FORCE = -15;
     private final int GROUND_Y = 450;
     
@@ -20,28 +20,28 @@ public class Player {
     private int dx = 0;
     private final int SPEED = 5;
     
-    public Player(int x, int y) {
+    public Jugador(int x, int y) {
         this.x = x;
         this.y = y;
     }
     
-    public void update() {
+    public void actualizar() {
         // Movimiento horizontal
         x += dx;
         
         // Evitar que el jugador salga de la pantalla
         if (x < 0) x = 0;
-        if (x > 800 - width) x = 800 - width;
+        if (x > 800 - ancho) x = 800 - ancho;
         
         // Manejo de salto
-        if (isJumping) {
-            y += jumpSpeed;
-            jumpSpeed += GRAVITY;
+        if (estaSaltando) {
+            y += velocidadSalto;
+            velocidadSalto += GRAVEDAD;
             
             // Comprobar si ha tocado el suelo
-            if (y >= GROUND_Y - height) {
-                y = GROUND_Y - height;
-                isJumping = false;
+            if (y >= GROUND_Y - altura) {
+                y = GROUND_Y - altura;
+                estaSaltando = false;
             }
         }
         
@@ -58,7 +58,7 @@ public class Player {
     public void draw(Graphics g) {
         // Dibujar cuerpo
         g.setColor(Color.BLUE);
-        g.fillRect(x, y, width, height);
+        g.fillRect(x, y, ancho, altura);
         
         // Dibujar cabeza
         g.setColor(Color.CYAN);
@@ -67,7 +67,7 @@ public class Player {
         // Si está atacando, dibujar puño
         if (isAttacking) {
             g.setColor(Color.RED);
-            g.fillRect(x + width, y + 30, 30, 10);
+            g.fillRect(x + ancho, y + 30, 30, 10);
         }
     }
     
@@ -84,9 +84,9 @@ public class Player {
     }
     
     public void jump() {
-        if (!isJumping) {
-            isJumping = true;
-            jumpSpeed = JUMP_FORCE;
+        if (!estaSaltando) {
+            estaSaltando = true;
+            velocidadSalto = JUMP_FORCE;
         }
     }
     
@@ -98,8 +98,8 @@ public class Player {
     }
     
     public void takeDamage(int damage) {
-        health -= damage;
-        if (health < 0) health = 0;
+        vida -= damage;
+        if (vida < 0) vida = 0;
     }
     
     public int getX() {
@@ -111,10 +111,10 @@ public class Player {
     }
     
     public int getHealth() {
-        return health;
+        return vida;
     }
     
-    public boolean isAttacking() {
+    public boolean estaAtacando() {
         return isAttacking;
     }
     

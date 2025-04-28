@@ -16,7 +16,7 @@ public class BeatEmUpGame extends JPanel implements ActionListener, KeyListener 
     private final int DELAY = 10;
     
     // Jugador
-    private Player player;
+    private Jugador player;
     
     // Enemigos
     private ArrayList<Enemy> enemies;
@@ -37,7 +37,7 @@ public class BeatEmUpGame extends JPanel implements ActionListener, KeyListener 
         addKeyListener(this);
         
         // Inicializar jugador
-        player = new Player(100, GROUND_Y - 100);
+        player = new Jugador(100, GROUND_Y - 100);
         
         // Inicializar enemigos
         enemies = new ArrayList<>();
@@ -99,7 +99,7 @@ public class BeatEmUpGame extends JPanel implements ActionListener, KeyListener 
         }
         
         // Actualizar jugador
-        player.update();
+        player.actualizar();
         
         // Generar enemigos
         enemySpawnCounter++;
@@ -126,7 +126,7 @@ public class BeatEmUpGame extends JPanel implements ActionListener, KeyListener 
                 enemy.attack();
                 
                 // Si el ataque conecta y el jugador no está atacando
-                if (enemy.isAttacking() && !player.isAttacking() && enemy.getAttackTimer() < 5) {
+                if (enemy.isAttacking() && !player.estaAtacando() && enemy.getAttackTimer() < 5) {
                     player.takeDamage(10);
                     if (player.getHealth() <= 0) {
                         gameOver = true;
@@ -135,7 +135,7 @@ public class BeatEmUpGame extends JPanel implements ActionListener, KeyListener 
             }
             
             // Si el jugador está atacando y golpea al enemigo
-            if (player.isAttacking() && 
+            if (player.estaAtacando() && 
                 Math.abs(player.getX() - enemy.getX()) < 70 &&
                 player.getAttackTimer() < 5) {
                 enemy.takeDamage(25);
@@ -163,7 +163,7 @@ public class BeatEmUpGame extends JPanel implements ActionListener, KeyListener 
         if (gameOver) {
             if (key == KeyEvent.VK_R) {
                 // Reiniciar juego
-                player = new Player(100, GROUND_Y - 100);
+                player = new Jugador(100, GROUND_Y - 100);
                 enemies.clear();
                 score = 0;
                 gameOver = false;
